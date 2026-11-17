@@ -10,7 +10,7 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier 
 
 # Função para treinar o modelo
-def dsa_treina_modelo():
+def treina_modelo():
 
     # Lê os dados de treino do arquivo CSV
     dados_treino = pd.read_csv('dados/processados/dados_treino.csv')
@@ -20,15 +20,15 @@ def dsa_treina_modelo():
     y_treino = dados_treino['y']
     
     # Cria uma instância do modelo RandomForestClassifier
-    modelo_dsa = RandomForestClassifier(n_estimators = 100, random_state = 42)
+    modelo = RandomForestClassifier(n_estimators = 100, random_state = 42)
     
     # Treina o modelo com os dados de treino
-    modelo_dsa.fit(X_treino, y_treino)
+    modelo.fit(X_treino, y_treino)
     
     # Salva o modelo treinado em um arquivo
-    joblib.dump(modelo_dsa, 'modelos/modelo_dsa_v1.pkl')
+    joblib.dump(modelo, 'modelos/modelo_v1.pkl')
 
 # Executa a função se o script for executado diretamente
 if __name__ == "__main__":
-    dsa_treina_modelo()
+    treina_modelo()
     print('\nMódulo de Treinamento do Modelo Executado Com Sucesso!\n')

@@ -14,13 +14,13 @@ import pandas as pd
 from sklearn.metrics import accuracy_score, precision_score, recall_score  
 
 # Função para obter o modelo mais recente
-def dsa_obtem_modelo_mais_recente(diretorio):
+def obtem_modelo_mais_recente(diretorio):
     
     # Lista todos os arquivos no diretório
     arquivos = os.listdir(diretorio)
     
-    # Filtra apenas os arquivos que correspondem ao padrão 'modelo_dsa_vX.pkl'
-    modelos = [arq for arq in arquivos if re.match(r'modelo_dsa_v\d+\.pkl', arq)]
+    # Filtra apenas os arquivos que correspondem ao padrão 'modelo_vX.pkl'
+    modelos = [arq for arq in arquivos if re.match(r'modelo_v\d+\.pkl', arq)]
     
     # Ordena os arquivos pela versão (vX)
     modelos.sort(key=lambda x: int(re.search(r'v(\d+)', x).group(1)), reverse = True)
@@ -29,7 +29,7 @@ def dsa_obtem_modelo_mais_recente(diretorio):
     return os.path.join(diretorio, modelos[0]) if modelos else None
 
 # Função para avaliar o modelo
-def dsa_avalia_modelo():
+def avalia_modelo():
 
     # Lê os dados de teste do arquivo CSV
     dados_teste = pd.read_csv('dados/processados/dados_teste.csv')
@@ -39,17 +39,17 @@ def dsa_avalia_modelo():
     y_teste = dados_teste['y']
     
     # Obtém o caminho do modelo mais recente
-    caminho_modelo = dsa_obtem_modelo_mais_recente('modelos')
+    caminho_modelo = obtem_modelo_mais_recente('modelos')
 
     if caminho_modelo:
 
         print(f'\nAvaliando o Modelo: {caminho_modelo}')
 
         # Carrega o modelo treinado a partir do arquivo
-        modelo_dsa = joblib.load(caminho_modelo)
+        modelo = joblib.load(caminho_modelo)
     
         # Faz previsões com o modelo usando os dados de teste
-        y_pred = modelo_dsa.predict(X_teste)
+        y_pred = modelo.predict(X_teste)
     
         # Calcula a acurácia das previsões
         accuracy = accuracy_score(y_teste, y_pred)
@@ -75,7 +75,7 @@ def dsa_avalia_modelo():
 
 # Executa a função se o script for executado diretamente
 if __name__ == "__main__":
-    dsa_avalia_modelo()
+    avalia_modelo()
 
 
 
